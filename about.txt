@@ -1,0 +1,5 @@
++methods.py
++inlines.py
+databse.py to'ldirildi
+globals.py to'ldirildi
+messages ga  elif state == 2 holati qo'shildi
