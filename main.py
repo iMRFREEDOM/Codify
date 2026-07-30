@@ -1,37 +1,20 @@
-from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, MessageHandler, Filters, ConversationHandler
-from database import Database
-from register import check
-from messages import message_handler
-from inlines import inline_handler
+# pip install django - django o'rnatish uchun
+# django-admin startproject config . 
+# python manage.py runserver  - serverni ishlatish uchun 
+# python manage.py migrate - migratsiya uchun
+# python manage.py createsuperuser - super admin yaratish uchun
 
-TOKEN = ""
+# yaratish , run qilish , migratsiya qilish , superadmin qoshish
 
-db = Database("db-evos.db")
+# doim modelsga o'zgartirish kiritilgandan keyin\
+# python manage.py makemigrations
+# deyish shart
 
+# python manage.py startapp [app nomi] yangi app qoshish
+# <a hefr='../'>First page</a>
+# Bosh sahifaga otish uchun ../ qilsak bo'ladi
+#  path('pages/<str:page>',pages, name='pages'),
+# bu yerda ozgaruvchi perish mumkin
+# /<str:page>
+# str bu string yoki integer degandek qism
 
-def start_handler(update, context):
-    check(update, context)
-
-
-def contact_handler(update, context):
-    message = update.message.contact.phone_number
-    user = update.message.from_user
-    # db_user = db.get_user_by_chat_id(user.id)
-    db.update_user_data(user.id, "phone_number",message)
-    check(update,context)
-
-def main():
-    updater = Updater(TOKEN)
-    dispatcher = updater.dispatcher
-
-    dispatcher.add_handler(CommandHandler('start', start_handler))
-    dispatcher.add_handler(MessageHandler(Filters.text, message_handler))
-    dispatcher.add_handler(MessageHandler(Filters.contact, contact_handler))
-    dispatcher.add_handler(CallbackQueryHandler(inline_handler))
-
-    updater.start_polling()
-    updater.idle()
-
-
-if __name__ == '__main__':
-    main()
